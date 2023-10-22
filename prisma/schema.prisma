@@ -3,7 +3,7 @@ generator client {
 }
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:./dev.db"
 }
 model Alunos {
   matricula Int @id @unique @map("matricula")
@@ -27,7 +27,7 @@ model Grupos {
   nomeGrupo String @id
   numEstd Int
   alunos Alunos[]
-  estande Estande []
+  estande Estande[]
 }
 
 model Avaliacao {
@@ -35,13 +35,13 @@ model Avaliacao {
   nota Float
   comentario String
 
-  professorIdUvv Int @unique
+  professorIdUvv Int? @unique
   estandeNumeroEstande Int @unique
-  matriculaAlunos Int @unique
+  matriculaAlunos Int? @unique
 
-  professor Professor @relation(fields: [professorIdUvv], references: [idUvv])
+  professor Professor? @relation(fields: [professorIdUvv], references: [idUvv])
   estande Estande @relation(fields: [estandeNumeroEstande], references: [numeroEstande])
-  aluno Alunos @relation(fields: [matriculaAlunos],references: [matricula])
+  aluno Alunos? @relation(fields: [matriculaAlunos],references: [matricula])
 
 
   @@unique([professorIdUvv, estandeNumeroEstande,matriculaAlunos])

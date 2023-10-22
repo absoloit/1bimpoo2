@@ -6,7 +6,7 @@ async function main() {
   const g1 = await prisma.grupos.create({
     data: {
       nomeGrupo:'TriEx',
-
+      numEstd: 5
     },
   })
   console.log(g1)
