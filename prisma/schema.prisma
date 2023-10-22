@@ -1,32 +1,48 @@
 generator client {
   provider = "prisma-client-js"
 }
-
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
-model Aluno {
-  matricula String @id @default(uuid()) @map("matricula")
-  nome String @unique
-  grupos Grupos[]
+model Alunos {
+  matricula Int @id @unique @map("matricula")
+  nome String
+  avaliacoes Avaliacao[]
+  grupo Grupos[]
 }
 model Professor {
-  idUvv String @id @unique
+  idUvv Int @id @unique
   nome String
+  avaliacoes Avaliacao[]
 }
 model Estande {
-  numeroEstande String @id @unique
+  numeroEstande Int @id @unique
   dataHora DateTime @default(now())
-  avaliacao Avaliacao? 
+  avaliacao Avaliacao?
+  grupo Grupos[]
 }
+
 model Grupos {
   nomeGrupo String @id
-  alunos Aluno[]
+  numEstd Int
+  alunos Alunos[]
+  estande Estande []
 }
+
 model Avaliacao {
-  numeroAvaliacao String @id @default(uuid())
+  numeroAvaliacao Int @id @default(autoincrement())
   nota Float
   comentario String
-  estande Estande @relation(fields: [numeroAvaliacao], references: [numeroEstande])
+
+  professorIdUvv Int @unique
+  estandeNumeroEstande Int @unique
+  matriculaAlunos Int @unique
+
+  professor Professor @relation(fields: [professorIdUvv], references: [idUvv])
+  estande Estande @relation(fields: [estandeNumeroEstande], references: [numeroEstande])
+  aluno Alunos @relation(fields: [matriculaAlunos],references: [matricula])
+
+
+  @@unique([professorIdUvv, estandeNumeroEstande,matriculaAlunos])
 }

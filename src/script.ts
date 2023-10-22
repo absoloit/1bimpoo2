@@ -5,8 +5,8 @@ const prisma = new PrismaClient()
 async function main() {
   const g1 = await prisma.grupos.create({
     data: {
-      Integrantes: 'Bob,Joao,Julia',
-      Assunto: 'bob@prisma.io',
+      nomeGrupo:'TriEx',
+
     },
   })
   console.log(g1)
