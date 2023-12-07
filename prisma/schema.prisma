@@ -39,12 +39,12 @@ model Avaliacao {
   nota                 Float
   comentario           String
 
-  professorIdUvv       Int 
+  professorIdUvv       Int?
   estandeNumeroEstande Int @unique
-  matriculaAlunos      Int
+  matriculaAlunos      Int?
 
   professor Professor?   @relation(fields: [professorIdUvv], references: [idUvv])
-  estande   Estande?     @relation(fields: [estandeNumeroEstande], references: [numeroEstande])
+  estande   Estande  @relation(fields: [estandeNumeroEstande], references: [numeroEstande])
   aluno     Alunos?      @relation(fields: [matriculaAlunos], references: [matricula])
 
   @@index([professorIdUvv], name: "idx_professorIdUvv")
